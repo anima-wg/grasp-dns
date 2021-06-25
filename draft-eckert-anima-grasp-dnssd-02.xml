@@ -76,6 +76,12 @@ category="std">
     <author fullname="Christian Jacquenet" initials="C." surname="Jacquenet">
       <organization>Orange</organization>
       <address>
+        <postal>
+          <street/>
+          <city>Rennes</city>
+          <code>35000</code>
+          <country>France</country>
+        </postal>
         <email>christian.jacquenet@orange.com</email>
       </address>
     </author>
@@ -892,7 +898,7 @@ locator-option /= ipv6-address-option
     <section anchor="changes"
     title="Change log [RFC Editor: Please remove]">
 
-      <section title="02 - ">
+      <section title="02 - Revived after charter round 1 finished">
       <t>Reviving after ANIMA charter 01 is finished, adding new co-authors.</t>
       </section>
 
