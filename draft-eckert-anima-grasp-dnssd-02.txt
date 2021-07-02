@@ -5,41 +5,38 @@
 ANIMA WG                                                       T. Eckert
 Internet-Draft                                                 Futurewei
 Intended status: Standards Track                       B. Carpenter, Ed.
-Expires: December 26, 2021                             Univ. of Auckland
+Expires: January 1, 2022                               Univ. of Auckland
                                                             M. Boucadair
                                                             C. Jacquenet
                                                                   Orange
                                                             M. Behringer
-                                                            Jun 24, 2021
+                                                            Jun 30, 2021
 
 
-              DNS-SD compatible service discovery in GRASP
+   DNS-SD Compatible Service Discovery in GeneRic Autonomic Signaling
+                            Protocol (GRASP)
                    draft-eckert-anima-grasp-dnssd-01
 
 Abstract
 
-   DNS Service Discovery (DNS-SD) defines the common framework for
-   applications to announce and discover services.  This includes
-   service names, service instance names, common parameters for
-   selecting a service instance (weight, priority) as well as service
-   specific parameters.
+   DNS Service Discovery (DNS-SD) defines a framework for applications
+   to announce and discover services.  This includes service names,
+   service instance names, common parameters for selecting a service
+   instance (weight or priority) as well as other service-specific
+   parameters.  For the specific case of autonomic networks, GeneRic
+   Autonomic Signaling Protocol (GRASP) intends to be used for service
+   discovery in addition to the setup of basic connectivity.
+   Reinventing advanced service discovery for GRASP with a similar set
+   of features as DNS-SD would result in duplicated work.  To avoid
+   that, this document defines how to use GRASP to announce and discover
+   services relying upon DNS-SD features while maintaining the intended
+   simplicity of GRASP.  To that aim, the document defines name
+   discovery and schemes for reusable elements in GRASP objectives.
 
-   GRASP is intended to also be used for service discovery.  Reinventing
-   service discovery for GRASP with a similar set of fetures would
-   result in duplication of work.  Therefore, this document defines how
-   to use GRASP to announce and discover services in a way that inherits
-   DNS-SD features and also tries to be compatible in spirit as much as
-   possibel while still maintaining the intended simplicity of GRASP.
+Note to the RFC Editor
 
-   The goal of this document is to permit defining service and their
-   parameters once and then use that in GRASP, mDNS and (unicast) DNS.
-   Future work can also define DNS-SD <-> GRASP gateway functions.
-
-   In support of service discovery, this document also defines name
-   discovery and schemes for reuseable elements in GRASP objectives
-   which are designed to be extensible so that future work that
-   identifies elements required across multiple objectives do not need
-   to define a scheme how to do this.
+   Please replace all occurrences of rfcXXXX with the RFC number
+   assigned to this document.
 
 Status of This Memo
 
@@ -51,19 +48,20 @@ Status of This Memo
    working documents as Internet-Drafts.  The list of current Internet-
    Drafts is at https://datatracker.ietf.org/drafts/current/.
 
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
 
 
-Eckert, et al.          Expires December 26, 2021               [Page 1]
+
+Eckert, et al.           Expires January 1, 2022                [Page 1]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
-   Internet-Drafts are draft documents valid for a maximum of six months
-   and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 26, 2021.
+   This Internet-Draft will expire on January 1, 2022.
 
 Copyright Notice
 
@@ -83,148 +81,154 @@ Copyright Notice
 Table of Contents
 
    1.  Overview  . . . . . . . . . . . . . . . . . . . . . . . . . .   3
-   2.  Specification (Normative) . . . . . . . . . . . . . . . . . .   4
-     2.1.  Service and Name Objectives . . . . . . . . . . . . . . .   4
-     2.2.  Objective Value Reuseable Elements Structure  . . . . . .   4
-     2.3.  Reuseable Elements  . . . . . . . . . . . . . . . . . . .   6
-       2.3.1.  Sender Loop Count . . . . . . . . . . . . . . . . . .   6
-       2.3.2.  Service Element . . . . . . . . . . . . . . . . . . .   6
-       2.3.3.  Name Element  . . . . . . . . . . . . . . . . . . . .   9
-   3.  Explanations (Informative)  . . . . . . . . . . . . . . . . .  11
-     3.1.  Using GRASP service announcements . . . . . . . . . . . .  11
-     3.2.  Further comparison with DNS-SD  . . . . . . . . . . . . .  13
-     3.3.  Open Issues . . . . . . . . . . . . . . . . . . . . . . .  13
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  14
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  15
-   7.  Change log [RFC Editor: Please remove]  . . . . . . . . . . .  15
-     7.1.  02 - Revived after charter round 1 finished . . . . . . .  15
-     7.2.  01 -  . . . . . . . . . . . . . . . . . . . . . . . . . .  15
-     7.3.  00 - Initial version  . . . . . . . . . . . . . . . . . .  15
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  15
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .  15
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   4
+   3.  Specification . . . . . . . . . . . . . . . . . . . . . . . .   4
+     3.1.  Service and Name Objectives . . . . . . . . . . . . . . .   4
+     3.2.  Objective Value Reuseable Elements Structure  . . . . . .   4
+     3.3.  Reuseable Elements  . . . . . . . . . . . . . . . . . . .   6
+       3.3.1.  Sender Loop Count . . . . . . . . . . . . . . . . . .   6
+       3.3.2.  Service Element . . . . . . . . . . . . . . . . . . .   6
+       3.3.3.  Name Element  . . . . . . . . . . . . . . . . . . . .   9
+   4.  Theory of Operation . . . . . . . . . . . . . . . . . . . . .  11
+     4.1.  Using GRASP Service Announcements . . . . . . . . . . . .  11
+     4.2.  Further Comparison with DNS-SD  . . . . . . . . . . . . .  13
+     4.3.  Open Issues . . . . . . . . . . . . . . . . . . . . . . .  13
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  14
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  15
+   8.  Change log [RFC Editor: Please remove]  . . . . . . . . . . .  15
+     8.1.  02 - Revived after charter round 1 finished . . . . . . .  15
+     8.2.  01 -  . . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     8.3.  00 - Initial version  . . . . . . . . . . . . . . . . . .  15
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  15
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  16
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
 
 
 
 
-Eckert, et al.          Expires December 26, 2021               [Page 2]
+
+Eckert, et al.           Expires January 1, 2022                [Page 2]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 1.  Overview
 
-   DNS Service Discovery (DNS-SD) defines the common framework for
+   DNS Service Discovery (DNS-SD) [RFC6763] defines a framework for
    applications to announce and discover services.  This includes
    service names, service instance names, common parameters for
-   selecting a service instance (weight, priority) as well as service
-   specific parameters.
+   selecting a service instance (weight, priority) as well as other
+   service-specific parameters.
 
-   GRASP is intended to also be used for service discovery.  Reinventing
-   service discovery for GRASP with a similar set of fetures would
-   result in duplication of work.  Therefore, this document defines how
-   to use GRASP to announce and discover services in a way that inherits
-   DNS-SD features and also tries to be compatible in spirit as much as
-   possibel while still maintaining the intended simplicity of GRASP.
+   GeneRic Autonomic Signaling Protocol (GRASP) [RFC8990] is intended to
+   also be used for service discovery purposes.  Reinventing service
+   discovery for GRASP with a similar set of features would result in
+   duplication of work.  Therefore, this document defines how to use
+   GRASP to announce and discover services in a way that inherits DNS-SD
+   features and also tries to be compatible in spirit as much as
+   possible while still maintaining the intended simplicity of GRASP.
 
    The goal of this document is to permit defining service and their
    parameters once and then use that in GRASP, mDNS and (unicast) DNS.
    Future work can also define DNS-SD <-> GRASP gateway functions.
 
-   GRASP exists as so-called GRASP-Domains, which are networks across
-   which GRASP is run.  This document primarily defines how to perform
-   service discovery across such a domain leveraging GRASPs options to
-   perform unsolicited flooding of announcements or flooding of requests
-   and finding the closest service instances.  The initial use case of
-   this document is to support what in DNS-SD is done via mDNS but in
-   larger networks - GRASP-Domains.  Beside the efficient flooding,
-   GRASP provides reliability and security (depending on the so called
-   substrate used by GRASP, such as the autonomic control plane - ACP).
-   Providing compatibility with existing mDNS service announcer or
-   clients is possible, but not described in this version of the
-   document.
+   This document primarily defines how to perform service discovery
+   across such a GRASP domain leveraging GRASP's options to perform
+   unsolicited flooding of announcements or flooding of requests, and
+   finding the closest service instances.  Also, the document allows for
+   automatically discovering DNS-SD servers.  Such features is meant to
+   optimize the flooding traffic in some deployments.
 
-   The encoding of information choosen in this document does not try to
+   The initial use case of this document is to support what in DNS-SD is
+   done via mDNS but in larger networks - GRASP-Domains.  Beside the
+   efficient flooding, GRASP provides reliability and security
+   (depending on the so called substrate used by GRASP, such as the
+   autonomic control plane - ACP).  Providing compatibility with
+   existing mDNS service announcer or clients is possible, but not
+   described in this version of the document.
+
+   The encoding of information chosen in this document does not try to
    use GRASP solely as a transport layer, but to also leverage the CBOR
    structure of GRASP messages to natively encode the message elements
    required for services in a way that is most simple - instead of using
-   GRASP only as e.g.: an encapsulation of otherwise unchanged DNS
+   GRASP only as, e.g., an encapsulation of otherwise unchanged DNS
    message encodings.  This is done to minimize the amount of coding
    required (and not require any DNS code unless future gateway
-   functions are requireed), to increase the simplicity, minimize the
-   amount of data on the wire and allow easier extensibility.  On the
+   functions are required), to increase the simplicity, minimize the
+   amount of data on the wire, and allow easier extensibility.  On the
    downside, the mechanisms provided here do not cover the whole slew of
    possible options of DNS/DNS-SD, but instead only those deemed to be
    required.  Others can be added later.
 
-   In support of service discovery, this document also defines name
-   discovery and schemes for reuseable elements in GRASP objectives
-   which are designed to be extensible so that future work that
 
 
 
-Eckert, et al.          Expires December 26, 2021               [Page 3]
+Eckert, et al.           Expires January 1, 2022                [Page 3]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
-   identifies elements required across multiple objectives do not need
-   to define a scheme how to do this.
+   In support of service discovery, this document also defines name
+   discovery and schemes for reusable elements in GRASP objectives which
+   are designed to be extensible so that future work that identifies
+   elements required across multiple objectives do not need to define a
+   scheme how to do this.
 
-2.  Specification (Normative)
+2.  Terminology
 
-2.1.  Service and Name Objectives
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+   This document makes use of terms and concepts defined in [RFC8990].
+
+3.  Specification
+
+3.1.  Service and Name Objectives
 
    Unsolicited, flooded announcements (M_FLOOD) in GRASP and solicited
    flooded discovery (M_DISCOVERY) operate on the unit of GRASP
-   objective-names.  Therefore a scheme is required to indicate services
-   via objective-names.  Note: future work may wants to reuse the
-   encodings related to services (defined below in this document) inside
-   other (multicast or unicast only) objective exchanges, in which case
-   the service names are not impacted.
+   technical objectives (identified by 'objective-names' as discussed in
+   Section 2.10 of [RFC8990]).  Therefore, a scheme is required to
+   indicate services via 'objective-names'.
 
-   When an objective is meant to be solely about a service name as
-   defined and registered according to RFC6335, the objective MUST uses
-   an objective-name of SRV.<service-name>.  This naming scheme allows
-   to avoid creating duplicate and potentially inconsistent registration
-   of names for those objectives vs.  registrations done for example for
-   DNS-SD.  The primary use case for this naming scheme are therefore
-   service names that are intended to be used in both DNS-SD and GRASP.
+      Note: Future work may want to reuse the encodings related to
+      services (defined below in this document) inside other (multicast
+      or unicast only) objective exchanges, in which case the service
+      names are not impacted.
+
+   When a technical objective (simply referred to as objective) is meant
+   to be solely about a service name, the objective MUST uses an
+   'objective-name' of 'SRV.<service-name>'.  This naming scheme is
+   meant to avoid creating duplicates and, potentially, inconsistent
+   name registrations for those objectives vs. registrations done, for
+   example, for DNS-SD.
 
    When an objective is meant announcement and discovery of a DNS
    compatible <name> such as "www-internal" in "www-
    internal.example.com", the objective SHOULD use an objective-name of
-   NAME.<name>.  See Section 2.3.3for more details.
+   NAME.<name>.  See Section 3.3.3 for more details.
 
-   See Section 5 for the detailled IANA asks relating to these
-   definitions.
-
-2.2.  Objective Value Reuseable Elements Structure
+3.2.  Objective Value Reuseable Elements Structure
 
    Because service discovery, as explained in the prior section, needs
    to utilize different objectives, it requires cross-objective
-   standardized encoding of the elements of services.  GRASP did not
-   define standardized message elements for the message body (called
-   "objective-value") of GRASP messages.  Therefore, this document
-   introduces such a feature.
-
-   [RFC-editor: please remove all occurances of XXXX in rfcXXXX with the
-   RFC number assigned to this document and remove this edit note.]
+   standardized encoding of the elements of services.  GRASP does not
 
 
 
-
-
-
-
-
-
-Eckert, et al.          Expires December 26, 2021               [Page 4]
+Eckert, et al.           Expires January 1, 2022                [Page 4]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
+
+   define standardized message elements for the message body (called
+   "objective-value") of GRASP messages.  Therefore, this document
+   introduces such a feature.
 
    objective-value  /= { 1*elements }
    elements        //= ( @rfcXXXX: { 1*relement } )
@@ -234,28 +238,29 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    relement-value     = any
 
 
+   If an objective relies upon reusable elements, the 'objective-value'
+   MUST be a CBOR map and the reusable elements are found under the key
+   "@rfcXXXX".
 
-   If an objective wants to use reuseable elements, the objective-value
-   MUST be a CBOR map and the reuseable elements are found under the key
-   "@rfcXXXX".  Objectives that do not want reuseable elements as
-   defined here can use any objective-value format including a CBOR map,
-   but they can not use the "@rfcXXXX" key if they use a map.  This
-   approach was choosen as the hopefully least intrusive mechanism given
-   how by nature all of "objective-value" is meant to be defined by
-   individual objective definitions.
+   Objectives that do not want reusable elements may use any objective-
+   value format including a CBOR map, but they can not use the
+   "@rfcXXXX" key if they use a map.  This approach was chosen as the
+   hopefully least intrusive mechanism given how by nature all of
+   "objective-value" is meant to be defined by individual objective
+   definitions.
 
-   The value of "@rfcXXXX" is a map of reuseable elements.  Each
-   relement has an IANA registered element-name and codepoint (see
-   Section 5).  The element-name is for documentation purposes only,
+   The value of "@rfcXXXX" is a map of reusable elements.  Each
+   'relement' has an IANA registered element-name and codepoint (see
+   Section 6).  The element-name is for documentation purposes only,
    CBOR encodings only use the numeric codepoint for encoding efficiency
    to minimize the risk for this solution to not be applicable to low-
-   bitrate neworks such as in IoT.
+   bitrate networks such as in IoT.
 
    Format and semantic of the relement-value is determined by the
-   specification of the reuseable element as is the fact whether more
-   than one instances of the same reuseable element are permitted.
+   specification of the reusable element as is the fact whether more
+   than one instances of the same reusable element are permitted.
 
-   Reuseable elements SHOULD be defined to be extensible.  The methods
+   Reusable elements should be defined to be extensible.  The methods
    used depend on the complexity of the element and the likely need to
    extend/modify the element with backward or non-backward compatible
    information.  The following is a set of initial options to choose
@@ -269,19 +274,18 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    starting with a "_".  These too are for private extensions defined by
    the individual objective.
 
-   Element values SHOULD be defined so that additional keys in maps and
-   additional elements at the end of arrays can be ignored by prior
-   versions of the definition.  Whenever a newer definition is made for
-   an element where this rule is violated, the element SHOULD be changed
 
 
 
-
-Eckert, et al.          Expires December 26, 2021               [Page 5]
+Eckert, et al.           Expires January 1, 2022                [Page 5]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
+   Element values SHOULD be defined so that additional keys in maps and
+   additional elements at the end of arrays can be ignored by prior
+   versions of the definition.  Whenever a newer definition is made for
+   an element where this rule is violated, the element SHOULD be changed
    in a way for older version recipients to recognize that it is not
    compatible with it.
 
@@ -296,9 +300,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    a simple bitmask element where each bit indicates a version that the
    represented data is compatible with.
 
-2.3.  Reuseable Elements
+3.3.  Reuseable Elements
 
-2.3.1.  Sender Loop Count
+3.3.1.  Sender Loop Count
 
 
 
@@ -317,13 +321,11 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    sender-loop-count was not announced, then distance SHOULD be assumed
    to be 255 by the receiver.
 
-2.3.2.  Service Element
+3.3.2.  Service Element
 
-   The srv-element (service element) is a reuseable element to request
-   or announce a service instance or to request and list service
-   instance names.
-
-
+   The srv-element (service element) is a reusable element to request or
+   announce a service instance or to request and list service instance
+   names.
 
 
 
@@ -331,9 +333,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-
-
-Eckert, et al.          Expires December 26, 2021               [Page 6]
+Eckert, et al.           Expires January 1, 2022                [Page 6]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -367,8 +367,8 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
       <service-name> is the service-name.
 
    Instance:  The <Instance> of a DNS-SD Service Instance Name (
-      <Instance> .  <Service> . <Domain>).  It is optional, see
-      Section 3.2.
+      <Instance> . <Service> .  <Domain>).  It is optional, see
+      Section 4.2.
 
    Domain:  The equivalent of the <Domain> field of a DNS-SD Service
       Instance Name.  If domain is not present, this is equivalent to
@@ -385,11 +385,11 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
    Range:  Allows to flexibly combine distance and priority/weight based
       service selection according to the definition of distance in
-      Section 2.3.1.
+      Section 3.3.1.
 
 
 
-Eckert, et al.          Expires December 26, 2021               [Page 7]
+Eckert, et al.           Expires January 1, 2022                [Page 7]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -411,7 +411,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
       announcement is made.  The reserved context value of "0" indicates
       the default routing context of the announcing node.  This is often
       called "global table", "VRF 0" or "default VRF" on nodes using the
-      "VRF" abtraction.  Any other value is a string specifying a
+      "VRF" abstraction.  Any other value is a string specifying a
       context such as another VRF.
 
       The mechanism by which originator and recipient of the srv-element
@@ -422,7 +422,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
       Assume the GRASP domain is the ACP, then clocators in ACP would
       have a context of "", clocators in the global routing table (part
       of the data-plane) a context of "0", and clocators on other VRFs
-      (also part of data-plane) a clocator that is their sring name.
+      (also part of data-plane) a clocator that is their string name.
 
       If no locators are indicated, then the locator of the service(s)
       is the optional locator-option of the GRASP message in which the
@@ -445,7 +445,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 26, 2021               [Page 8]
+Eckert, et al.           Expires January 1, 2022                [Page 8]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -465,8 +465,8 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
       then the recipient is asked to provide information about the named
       instance only.  All other fields of srv-element are to be ignored
       by the receiver in this specification, but a semantic for setting
-      them may be introduced in followup work, specifically to filter
-      replies by the indiciated fields.
+      them may be introduced in follow-up work, specifically to filter
+      replies by the indicated fields.
 
       "Describe-request" without instance MAY be answered by "Enumerate"
       (see below) if the responder has so many instances that it thinks
@@ -493,7 +493,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
       not be set (because in that case it is more useful to send a
       "Describe-request").
 
-2.3.3.  Name Element
+3.3.3.  Name Element
 
    The NAME,<name> elements is meant to provide basic name resolution
    comparable to mDNS name resolution for GRASP domains where this is
@@ -501,7 +501,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 26, 2021               [Page 9]
+Eckert, et al.           Expires January 1, 2022                [Page 9]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -557,7 +557,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 26, 2021              [Page 10]
+Eckert, et al.           Expires January 1, 2022               [Page 10]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -577,9 +577,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    Note that there is no reverse lookup defined in this version of the
    document (no lookup from IP address to name).
 
-3.  Explanations (Informative)
+4.  Theory of Operation
 
-3.1.  Using GRASP service announcements
+4.1.  Using GRASP Service Announcements
 
    TBD: This section contains a range of details that should become
    normative in later versions.
@@ -588,7 +588,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    service announcements and compares it to DNS-SD.
 
    The most simple method to use GRASP service discovery is to select
-   (and if still neessary, register) a <service-name> and start one or
+   (and if still necessary, register) a <service-name> and start one or
    more agents (e.g.: ASAs) announcing their service instance(s) via
    GRASP.  At minimum, an agent should periodically (default 60 seconds)
    announce the service instance via GRASP M_FLOOD messages as an
@@ -613,7 +613,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 26, 2021              [Page 11]
+Eckert, et al.           Expires January 1, 2022               [Page 11]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -642,7 +642,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    (TCP, UDP or other).  The determination of the actual transport
    connection to be used is the same as in DNS-SD: If the transport
    protocol is not TCP or UDP, it has to be implied by the specification
-   of <service-name> or can be detailled in kvpairs which carries the
+   of <service-name> or can be detailed in kvpairs which carries the
    same information as DNS-TXT TXT RRs of the service.  Alternatively,
    the transport-proto field of the locator can contain any valid IP
    protocol directly (TBD), which is not possible in DNS-SD.
@@ -654,13 +654,13 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    instance named.  SRV and TXT RRs resolve from service instance names
    to service instance parameters including the target.  A target is the
    DNS host name of the service instance.  It gets resolved via A/AAAA
-   RRs to IPv4/IPv6 addresses of the targ.  In GRASP service discovery,
-   host names are not used.  Service instance names are optional too.
-   Service instance names are useful for human diagnostics and human
-   selection of service instances.  In fully automated environments,
-   they can be are less important.  For diagnostic purposes, it is
-   recommended to give service instances service instance names in GRASP
-   service announcements.
+   RRs to IPv4/IPv6 addresses of the target.  In GRASP service
+   discovery, host names are not used.  Service instance names are
+   optional too.  Service instance names are useful for human
+   diagnostics and human selection of service instances.  In fully
+   automated environments, they can be are less important.  For
+   diagnostic purposes, it is recommended to give service instances
+   service instance names in GRASP service announcements.
 
    A locator with O_URI_LOCATOR type can be used in GRASP to indicate a
    URI for the transport method for a service instance.  If the URI
@@ -669,7 +669,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 26, 2021              [Page 12]
+Eckert, et al.           Expires January 1, 2022               [Page 12]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -677,7 +677,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    host name resolution - such as the ACP - or to use the GRASP name
    resolution mechanisms described elsewhere in this document.  And that
    the addresses indicated are also reachable in the GRASP domain.  For
-   example, in service announcemenets across a DULL GRASP domain, only
+   example, in service announcements across a DULL GRASP domain, only
    the IPv6 link-local addresses on that subnet must be used (this
    applies equally when using the O_IPv6_LOCATOR).
 
@@ -696,12 +696,12 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    instances should be used.  With the current logic of M_DISCOVERY this
    is not possible.
 
-3.2.  Further comparison with DNS-SD
+4.2.  Further Comparison with DNS-SD
 
    Neither the GRASP SRV.* objective-name, the service name nor any
    other parameter explicitly indicate the second label "_tcp" or "_udp"
    of DNS-SD entries.  DNS-SD, RFC6763 explains how this is an
-   unnecessary, historic artefact.
+   unnecessary, historic artifact.
 
    This version of the document does not define an equivalent to "_sub"
    structuring of service enumeration.
@@ -712,7 +712,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    interest and describe-request, but there is no indication of "ANY"
    service.
 
-3.3.  Open Issues
+4.3.  Open Issues
 
    TBD: Examine limitations mentioned in "in this version of the text/
    document".
@@ -725,12 +725,12 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 26, 2021              [Page 13]
+Eckert, et al.           Expires January 1, 2022               [Page 13]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
-   also retroative to the locator-option in GRASP messages (maybe not
+   also retroactive to the locator-option in GRASP messages (maybe not
    there ?).
 
    TBD: A fitting CBOR representation for a kvpair key without value
@@ -744,19 +744,24 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    TBD: Is there a way in CDDL to formally define the string names of
    the relement-codepoint's ?
 
-4.  Security Considerations
+5.  Security Considerations
 
    TBD.
 
-5.  IANA Considerations
+   GRASP-related security issues are discussed in Section 3 of
+   [RFC8990].
 
-   This document requests a new "GRASP Objective Value Standard
-   Elements" table in the GRASP Parameter Registrar.  The values in this
-   table are names and a unique numerical value assigned to each name.
-   Future values MUST be assigned using the RFC Required policy defined
-   by [RFC8126].  The numerical value is simply to be assigned
-   sequentially.  The following initial values are assigned by this
-   document:
+6.  IANA Considerations
+
+   This document requests IANA to create a new "GRASP Objective Value
+   Standard Elements" subregistry under the "GeneRic Autonomic Signaling
+   Protocol (GRASP) Parameters" registry.
+
+   The values in this table are names and a unique numerical value
+   assigned to each name.  Future values MUST be assigned using the RFC
+   Required policy as dedfined in Section 4.7 of [RFC8126].  The
+   numerical value is simply to be assigned sequentially.  The following
+   initial values are assigned by this document:
 
    sender-loop-count 1 [defined in rfcXXXX]
 
@@ -773,19 +778,19 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    Assignment of "SRV.<text>" can only be requested if <text> is also a
    registered service-name according to RFC6335.  The specification
    required for registration of a "GRASP Objective Name" MUST declare
-   that the intended use of the objective name in GRASP is intended to
-   be compatible with the indended use of the registered service name.
-
-   Registration of "SRV.<text>" in the "GRASP Objective Name" table is
-   optional, but recommended for all new service-names that are meant to
 
 
 
-Eckert, et al.          Expires December 26, 2021              [Page 14]
+Eckert, et al.           Expires January 1, 2022               [Page 14]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
+   that the intended use of the objective name in GRASP is intended to
+   be compatible with the indented use of the registered service name.
+
+   Registration of "SRV.<text>" in the "GRASP Objective Name" table is
+   optional, but recommended for all new service-names that are meant to
    be used with GRASP.  Non-registration can for example happen with
    DNS-SD <-> GRASP gateways that inject pre-existing service-names into
    GRASP.  Note that according to the GRASP RFC, registration is
@@ -796,51 +801,62 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
    "NAME.<text>".  These names are simply used by GRASP nodes without
    registration (just like names in mDNS).
 
-6.  Acknowledgements
+7.  Acknowledgements
 
-7.  Change log [RFC Editor: Please remove]
+8.  Change log [RFC Editor: Please remove]
 
-7.1.  02 - Revived after charter round 1 finished
+8.1.  02 - Revived after charter round 1 finished
 
    Reviving after ANIMA charter 01 is finished, adding new co-authors.
 
-7.2.  01 -
+8.2.  01 -
 
    Only refreshing, no changes since -00.
 
-7.3.  00 - Initial version
+8.3.  00 - Initial version
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
    [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
               <https://www.rfc-editor.org/info/rfc6763>.
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/info/rfc8126>.
+
+
+
+
+
+Eckert, et al.           Expires January 1, 2022               [Page 15]
+
+Internet-Draft              DNS-SD via GRASP                    Jun 2021
+
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
    [RFC8990]  Bormann, C., Carpenter, B., Ed., and B. Liu, Ed., "GeneRic
               Autonomic Signaling Protocol (GRASP)", RFC 8990,
               DOI 10.17487/RFC8990, May 2021,
               <https://www.rfc-editor.org/info/rfc8990>.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [RFC8994]  Eckert, T., Ed., Behringer, M., Ed., and S. Bjarnason, "An
               Autonomic Control Plane (ACP)", RFC 8994,
               DOI 10.17487/RFC8994, May 2021,
               <https://www.rfc-editor.org/info/rfc8994>.
-
-
-
-
-
-
-
-
-Eckert, et al.          Expires December 26, 2021              [Page 15]
-
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
-
 
 Authors' Addresses
 
@@ -871,6 +887,17 @@ Authors' Addresses
    Email: mohamed.boucadair@orange.com
 
 
+
+
+
+
+
+
+Eckert, et al.           Expires January 1, 2022               [Page 16]
+
+Internet-Draft              DNS-SD via GRASP                    Jun 2021
+
+
    Christian Jacquenet
    Orange
    Rennes  35000
@@ -893,4 +920,33 @@ Authors' Addresses
 
 
 
-Eckert, et al.          Expires December 26, 2021              [Page 16]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Eckert, et al.           Expires January 1, 2022               [Page 17]
