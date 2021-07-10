@@ -4,13 +4,11 @@
 
 ANIMA WG                                                       T. Eckert
 Internet-Draft                                                 Futurewei
-Intended status: Standards Track                       B. Carpenter, Ed.
-Expires: January 1, 2022                               Univ. of Auckland
-                                                            M. Boucadair
-                                                            C. Jacquenet
+Intended status: Standards Track                            M. Boucadair
+Expires: December 3, 2021                                   C. Jacquenet
                                                                   Orange
                                                             M. Behringer
-                                                            Jun 30, 2021
+                                                             Jun 1, 2021
 
 
    DNS-SD Compatible Service Discovery in GeneRic Autonomic Signaling
@@ -50,18 +48,17 @@ Status of This Memo
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
 
 
 
-Eckert, et al.           Expires January 1, 2022                [Page 1]
+Eckert, et al.          Expires December 3, 2021                [Page 1]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
-   time.  It is inappropriate to use Internet-Drafts as reference
-   material or to cite them other than as "work in progress."
-
-   This Internet-Draft will expire on January 1, 2022.
+   This Internet-Draft will expire on December 3, 2021.
 
 Copyright Notice
 
@@ -96,20 +93,23 @@ Table of Contents
    5.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  14
    7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  15
-   8.  Change log [RFC Editor: Please remove]  . . . . . . . . . . .  15
-     8.1.  02 - Revived after charter round 1 finished . . . . . . .  15
-     8.2.  01 -  . . . . . . . . . . . . . . . . . . . . . . . . . .  15
-     8.3.  00 - Initial version  . . . . . . . . . . . . . . . . . .  15
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  15
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  16
+   8.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  15
+   9.  Change log [RFC Editor: Please remove]  . . . . . . . . . . .  15
+     9.1.  02 - Revived after charter round 1 finished . . . . . . .  15
+     9.2.  01 -  . . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     9.3.  00 - Initial version  . . . . . . . . . . . . . . . . . .  15
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  15
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  16
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
 
 
 
 
 
-Eckert, et al.           Expires January 1, 2022                [Page 2]
+
+
+Eckert, et al.          Expires December 3, 2021                [Page 2]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -143,11 +143,12 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
    The initial use case of this document is to support what in DNS-SD is
    done via mDNS but in larger networks - GRASP-Domains.  Beside the
-   efficient flooding, GRASP provides reliability and security
-   (depending on the so called substrate used by GRASP, such as the
-   autonomic control plane - ACP).  Providing compatibility with
-   existing mDNS service announcer or clients is possible, but not
-   described in this version of the document.
+   efficient flooding, GRASP provides reliability and security, which
+   are depending on the so called substrate used by GRASP for security
+   and hop-by-hop/end-to-end transport, such as the Autonomic control
+   plane (ACP), [RFC8994].  Providing compatibility with existing mDNS
+   service announcer or clients is possible, but not described in this
+   version of the document.
 
    The encoding of information chosen in this document does not try to
    use GRASP solely as a transport layer, but to also leverage the CBOR
@@ -164,8 +165,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-
-Eckert, et al.           Expires January 1, 2022                [Page 3]
+Eckert, et al.          Expires December 3, 2021                [Page 3]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -221,7 +221,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022                [Page 4]
+Eckert, et al.          Expires December 3, 2021                [Page 4]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -277,7 +277,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022                [Page 5]
+Eckert, et al.          Expires December 3, 2021                [Page 5]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -333,7 +333,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022                [Page 6]
+Eckert, et al.          Expires December 3, 2021                [Page 6]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -389,7 +389,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022                [Page 7]
+Eckert, et al.          Expires December 3, 2021                [Page 7]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -445,7 +445,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022                [Page 8]
+Eckert, et al.          Expires December 3, 2021                [Page 8]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -501,7 +501,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022                [Page 9]
+Eckert, et al.          Expires December 3, 2021                [Page 9]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -557,7 +557,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022               [Page 10]
+Eckert, et al.          Expires December 3, 2021               [Page 10]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -613,7 +613,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022               [Page 11]
+Eckert, et al.          Expires December 3, 2021               [Page 11]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -669,7 +669,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022               [Page 12]
+Eckert, et al.          Expires December 3, 2021               [Page 12]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -725,7 +725,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022               [Page 13]
+Eckert, et al.          Expires December 3, 2021               [Page 13]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -781,7 +781,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022               [Page 14]
+Eckert, et al.          Expires December 3, 2021               [Page 14]
 
 Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
@@ -803,21 +803,28 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 7.  Acknowledgements
 
-8.  Change log [RFC Editor: Please remove]
+8.  Contributors
 
-8.1.  02 - Revived after charter round 1 finished
+   Brian Carpenter
 
-   Reviving after ANIMA charter 01 is finished, adding new co-authors.
+9.  Change log [RFC Editor: Please remove]
 
-8.2.  01 -
+9.1.  02 - Revived after charter round 1 finished
+
+   Reviving after ANIMA charter 01 is finished, adding new co-authors,
+   contributors.
+
+   Textual improvements, updating references.
+
+9.2.  01 -
 
    Only refreshing, no changes since -00.
 
-8.3.  00 - Initial version
+9.3.  00 - Initial version
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -828,19 +835,17 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
               <https://www.rfc-editor.org/info/rfc6763>.
 
+
+
+Eckert, et al.          Expires December 3, 2021               [Page 15]
+
+Internet-Draft              DNS-SD via GRASP                    Jun 2021
+
+
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
               <https://www.rfc-editor.org/info/rfc8126>.
-
-
-
-
-
-Eckert, et al.           Expires January 1, 2022               [Page 15]
-
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
-
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -851,7 +856,7 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
               DOI 10.17487/RFC8990, May 2021,
               <https://www.rfc-editor.org/info/rfc8990>.
 
-9.2.  Informative References
+10.2.  Informative References
 
    [RFC8994]  Eckert, T., Ed., Behringer, M., Ed., and S. Bjarnason, "An
               Autonomic Control Plane (ACP)", RFC 8994,
@@ -869,16 +874,6 @@ Authors' Addresses
    Email: tte+ietf@cs.fau.de
 
 
-   Brian Carpenter (editor)
-   School of Computer Science
-   University of Auckland
-   PB 92019
-   Auckland  1142
-   New Zealand
-
-   Email: brian.e.carpenter@gmail.com
-
-
    Mohamed Boucadair
    Orange
    Rennes  35000
@@ -887,23 +882,20 @@ Authors' Addresses
    Email: mohamed.boucadair@orange.com
 
 
-
-
-
-
-
-
-Eckert, et al.           Expires January 1, 2022               [Page 16]
-
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
-
-
    Christian Jacquenet
    Orange
    Rennes  35000
    France
 
    Email: christian.jacquenet@orange.com
+
+
+
+
+
+Eckert, et al.          Expires December 3, 2021               [Page 16]
+
+Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
    Michael H. Behringer
@@ -949,4 +941,12 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.           Expires January 1, 2022               [Page 17]
+
+
+
+
+
+
+
+
+Eckert, et al.          Expires December 3, 2021               [Page 17]
