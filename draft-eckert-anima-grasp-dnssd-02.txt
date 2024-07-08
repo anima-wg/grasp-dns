@@ -5,15 +5,15 @@
 ANIMA WG                                                       T. Eckert
 Internet-Draft                                                 Futurewei
 Intended status: Standards Track                            M. Boucadair
-Expires: December 3, 2021                                   C. Jacquenet
+Expires: January 13, 2022                                   C. Jacquenet
                                                                   Orange
                                                             M. Behringer
-                                                             Jun 1, 2021
+                                                           July 12, 2021
 
 
    DNS-SD Compatible Service Discovery in GeneRic Autonomic Signaling
                             Protocol (GRASP)
-                   draft-eckert-anima-grasp-dnssd-01
+                   draft-eckert-anima-grasp-dnssd-02
 
 Abstract
 
@@ -53,12 +53,12 @@ Status of This Memo
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 1]
+Eckert, et al.          Expires January 13, 2022                [Page 1]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
-   This Internet-Draft will expire on December 3, 2021.
+   This Internet-Draft will expire on January 13, 2022.
 
 Copyright Notice
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 2]
+Eckert, et al.          Expires January 13, 2022                [Page 2]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
 1.  Overview
@@ -165,9 +165,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 3]
+Eckert, et al.          Expires January 13, 2022                [Page 3]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    In support of service discovery, this document also defines name
@@ -221,9 +221,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 4]
+Eckert, et al.          Expires January 13, 2022                [Page 4]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    define standardized message elements for the message body (called
@@ -277,9 +277,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 5]
+Eckert, et al.          Expires January 13, 2022                [Page 5]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    Element values SHOULD be defined so that additional keys in maps and
@@ -333,9 +333,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 6]
+Eckert, et al.          Expires January 13, 2022                [Page 6]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    relement-codepoint //= ( &(srv-element:2) => context-element )
@@ -389,9 +389,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 7]
+Eckert, et al.          Expires January 13, 2022                [Page 7]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
       If min-distance is the distance of the closest service announcer,
@@ -445,9 +445,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 8]
+Eckert, et al.          Expires January 13, 2022                [Page 8]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
       included, then all fields except service and instance (and msg-
@@ -501,9 +501,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021                [Page 9]
+Eckert, et al.          Expires January 13, 2022                [Page 9]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    desirable and no better name resolution exist - for example in the
@@ -557,9 +557,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021               [Page 10]
+Eckert, et al.          Expires January 13, 2022               [Page 10]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    Priority, weight, kvpairs, range (and of course private) MAY be used
@@ -613,9 +613,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021               [Page 11]
+Eckert, et al.          Expires January 13, 2022               [Page 11]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    weight allows to prioritize and weigh the selection as in DNS-SD.
@@ -669,9 +669,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021               [Page 12]
+Eckert, et al.          Expires January 13, 2022               [Page 12]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    host name resolution - such as the ACP - or to use the GRASP name
@@ -725,9 +725,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021               [Page 13]
+Eckert, et al.          Expires January 13, 2022               [Page 13]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    also retroactive to the locator-option in GRASP messages (maybe not
@@ -781,9 +781,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021               [Page 14]
+Eckert, et al.          Expires January 13, 2022               [Page 14]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    that the intended use of the objective name in GRASP is intended to
@@ -837,9 +837,9 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021               [Page 15]
+Eckert, et al.          Expires January 13, 2022               [Page 15]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
@@ -893,9 +893,9 @@ Authors' Addresses
 
 
 
-Eckert, et al.          Expires December 3, 2021               [Page 16]
+Eckert, et al.          Expires January 13, 2022               [Page 16]
 
-Internet-Draft              DNS-SD via GRASP                    Jun 2021
+Internet-Draft              DNS-SD via GRASP                   July 2021
 
 
    Michael H. Behringer
@@ -949,4 +949,4 @@ Internet-Draft              DNS-SD via GRASP                    Jun 2021
 
 
 
-Eckert, et al.          Expires December 3, 2021               [Page 17]
+Eckert, et al.          Expires January 13, 2022               [Page 17]

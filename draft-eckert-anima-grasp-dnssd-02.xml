@@ -9,7 +9,7 @@
 <?rfc iprnotified="no" ?>
 <!-- Change to "yes" if someone has disclosed IPR for the draft -->
 <?rfc compact="yes"?>
-<rfc category="std" docName="draft-eckert-anima-grasp-dnssd-01"
+<rfc category="std" docName="draft-eckert-anima-grasp-dnssd-02"
      ipr="trust200902">
   <front>
     <title abbrev="DNS-SD via GRASP">DNS-SD Compatible Service Discovery in
@@ -76,7 +76,7 @@
       </address>
     </author>
 
-    <date month="Jun" year="2021" />
+    <date year="2021" />
 
     <area>Operations and Management</area>
 
